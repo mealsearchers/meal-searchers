@@ -1,25 +1,28 @@
-const fetchMealsByltr = async () => {
-  try {
-    const response = await fetch(
-      'https://www.themealdb.com/api/json/v1/1/search.php?f=b'
-    );
+import { fetchMealsByName, fetchMealsByfirstLetter } from './fetch-helpers';
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
+const searchMeals = async (searchQuery) => {
+  let fetchedMeals = null;
 
-    const data = await response.json();
-    console.log('Fetched data:', data);
-    return data; // Return the fetched data
-  } catch (error) {
-    console.error('Error fetching data:', error);
+  // Checks whether a single letter or full meal name was searched.
+  if (searchQuery.length === 1) {
+    //Searches the meal based on the first letter.
+    fetchedMeals = await fetchMealsByfirstLetter(searchQuery);
+  } else {
+    // Searches the meal based on the name.
+    fetchedMeals = await fetchMealsByName(searchQuery);
+  }
+
+  //Guard clause to check if a meal was found that matched the search query.
+  if (!fetchedMeals.meals) {
+    // Alert the user that a meal was not found.
+    alert('Error: Meal was not found!');
+  } else {
+    // Parses the retrieved meals data
+    displayMeals(fetchedMeals.meals);
   }
 };
 
-const displayMeals = async () => {
-  const mealsData = await fetchMealsByltr();
-  const meals = mealsData.meals;
-
+const displayMeals = async (meals) => {
   const mealGrid = document.getElementById('meal-grid');
 
   mealGrid.innerHTML = '';
@@ -36,14 +39,25 @@ const displayMeals = async () => {
   });
 };
 
-const fetchMealLog = async () => {
-  const meals = await fetchMealsByltr(); // Waits for the data to be returned
-  console.log('Meals data:', meals); // Log the returned data here
-};
-
 const main = () => {
-  // Fills the grid with the fetched data from the API
-  displayMeals();
+  //Grabs the form element from the DOM
+  const formElm = document.querySelector('#form-search');
+  // Attaches a submit event listener to the search button.
+  formElm.addEventListener('submit', (event) => {
+    //Prevent the default behavior.
+    event.preventDefault();
+
+    console.log(event);
+
+    //Get the selected form element.
+    const formElm = event.target;
+
+    //Grab the value of the input element.
+    const inputValue = formElm.elements['0'].value;
+
+    //Pass that search query to the search helper function.
+    searchMeals(inputValue);
+  });
 };
 
 main();
