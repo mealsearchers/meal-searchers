@@ -38,3 +38,5 @@ export const fetchMealsByfirstLetter = async (letter) => {
     console.error('Error fetching data:', error);
   }
 };
+
+// export const modalRecpieInfo = async ()

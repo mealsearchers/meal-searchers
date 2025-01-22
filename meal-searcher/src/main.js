@@ -22,7 +22,7 @@ const searchMeals = async (searchQuery) => {
   }
 };
 
-const displayMeals = async (meals) => {
+const displayMeals = (meals) => {
   const mealGrid = document.getElementById('meal-grid');
 
   mealGrid.innerHTML = '';
@@ -33,7 +33,10 @@ const displayMeals = async (meals) => {
     mealCard.classList.add('meal-card');
 
     mealCard.innerHTML = `<h3>${meal.strMeal}</h3>
-        <div><img src="${meal.strMealThumb}" alt="${meal.strMeal}"/></div>`;
+        <div class="meal-button-layout">
+            <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
+            <button class="open-modal">See More!</button>
+        </div>`;
 
     mealGrid.appendChild(mealCard);
   });
@@ -58,6 +61,26 @@ const main = () => {
     //Pass that search query to the search helper function.
     searchMeals(inputValue);
   });
-};
+}; 
 
+
+
+//event listener for opening modal
+document.body.addEventListener('click', (event) => {
+    //checks if the button has opening class
+    if (event.target.classList.contains('open-modal')) {
+        //makes the modal and hides itx
+      const modal = document.createElement('div');
+      const modalContent = document.createElement('div');
+      modal.className = 'modal';
+      modalContent.className = 'modal-content';
+      modal.style.display = 'none'; 
+      
+      modal.appendChild(modalContent);
+      document.body.appendChild(modal);
+      //displays modal after pressed
+      modal.style.display = '';
+    }
+  });
+ 
 main();
