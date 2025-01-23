@@ -1,6 +1,10 @@
 body {
     background-color: #004643;
     text-align: center;
+    font-family: "Jost", serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
     a{
         text-decoration: none;
         color: black;
@@ -42,8 +46,11 @@ button{
 }
   
 .meal-card h3 {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     margin-bottom: 10px;
+    font-family: "Jost", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
   
 .meal-card img {
@@ -51,6 +58,7 @@ button{
     height:auto;
     max-width: 400;
 }
+
 .meal-button-layout {
     display:flex;
     flex-direction: column;
@@ -83,3 +91,4 @@ button{
     text-align: center;
     z-index: 1;
 }
+
