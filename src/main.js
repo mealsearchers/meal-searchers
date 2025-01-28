@@ -6,6 +6,28 @@ import {
   fetchMealById,
 } from './fetch-helpers';
 
+const parseInstructionsToList = (paragraph) => {
+  // Split the paragraph into steps based on a delimiter like numbers, bullets, or newline characters.
+  // Adjust the delimiter as needed. Here, we assume numbers with a period (e.g., "1.", "2.") are used.
+  // Split the paragraph into sentences by periods followed by a space or end of the string
+  const steps = paragraph
+    .split(/\.\s+|\.$/)
+    .filter((step) => step.trim() !== '');
+
+  // Create an ordered list element
+  const ol = document.createElement('ol');
+
+  // Iterate over the steps and add them as list items
+  steps.forEach((step) => {
+    const li = document.createElement('li');
+    li.textContent = step.trim();
+    ol.appendChild(li);
+  });
+
+  // Return the ordered list element
+  return ol;
+};
+
 const searchMeals = async (searchQuery) => {
   let fetchedMeals = null;
 
@@ -93,15 +115,20 @@ const displayTenRandomMeal = async () => {
 const displayModal = async (id) => {
   const mealInfo = await fetchMealById(id);
   const modalElm = document.querySelector('#mealModal');
-
   modalElm.innerHTML = `
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">${mealInfo.meals[0].strMeal}</h5>
       </div>
-      <div class="modal-body">
-        ${mealInfo.meals[0].strInstructions}
+      <div class="modal-body-instructions">
+       
+      </div>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ingredients</h5>
+      </div>
+      <div class="modal-body-ingredients">
+       
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -109,6 +136,36 @@ const displayModal = async (id) => {
     </div>
   </div>
   `;
+  //Parses the instructions in a ordered list based on the period.
+  const parsedInstructions = parseInstructionsToList(
+    mealInfo.meals[0].strInstructions
+  );
+  // Put the ordered list in the body of the modal.
+  const modalInstructionsBody = document.querySelector(
+    '.modal-body-instructions'
+  );
+  modalInstructionsBody.appendChild(parsedInstructions);
+
+  //Parses the ingredients into the modal.
+  const modalIngredientsBody = document.querySelector(
+    '.modal-body-ingredients'
+  );
+  const modalIndgredientsList = document.createElement('ul');
+
+  // Fills the ingredients modal list.
+  let i = 0;
+  while (mealInfo.meals[0][`strIngredient${i + 1}`] !== '' || i === 21) {
+    const listElement = document.createElement('li');
+    listElement.textContent = mealInfo.meals[0][`strIngredient${i + 1}`];
+    modalIndgredientsList.appendChild(listElement);
+    i++;
+  }
+  // for (let i = 0; i < 20; i++) {
+  //   const listElement = document.createElement('li');
+  //   listElement.textContent = mealInfo.meals[0][`strIngredient${i + 1}`];
+  //   modalIndgredientsList.appendChild(listElement);
+  // }
+  modalIngredientsBody.appendChild(modalIndgredientsList);
 };
 
 const main = () => {
