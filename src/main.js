@@ -154,17 +154,12 @@ const displayModal = async (id) => {
 
   // Fills the ingredients modal list.
   let i = 0;
-  while (mealInfo.meals[0][`strIngredient${i + 1}`] !== '' || i === 21) {
+  while (Boolean(mealInfo.meals[0][`strIngredient${i + 1}`]) !== false) {
     const listElement = document.createElement('li');
     listElement.textContent = mealInfo.meals[0][`strIngredient${i + 1}`];
     modalIndgredientsList.appendChild(listElement);
     i++;
   }
-  // for (let i = 0; i < 20; i++) {
-  //   const listElement = document.createElement('li');
-  //   listElement.textContent = mealInfo.meals[0][`strIngredient${i + 1}`];
-  //   modalIndgredientsList.appendChild(listElement);
-  // }
   modalIngredientsBody.appendChild(modalIndgredientsList);
 };
 
