@@ -49,6 +49,7 @@ button {
   height: auto;
   max-width: 400;
 }
+
 .meal-button-layout {
   display: flex;
   flex-direction: column;
