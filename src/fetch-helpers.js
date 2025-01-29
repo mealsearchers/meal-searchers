@@ -77,7 +77,7 @@ export const fetchTenRandomMeals = async () => {
 export const fetchMealById = async (id) => {
   try {
     const response = await fetch(
-      `https:www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
     );
 
     if (!response.ok) {
