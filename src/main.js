@@ -173,8 +173,6 @@ const main = () => {
     //Prevent the default behavior.
     event.preventDefault();
 
-    console.log(event);
-
     //Get the selected form element.
     const formElm = event.target;
 
@@ -189,18 +187,15 @@ const main = () => {
   mealGridElm.addEventListener('click', (event) => {
     const target = event.target;
     let selectedMealId = null;
-    console.log(event);
     if (target.type === 'button') {
       //Get the modal DOM element.
       const modalElm = document.querySelector('#mealModal');
 
-      console.log(modalElm);
       //Gets the parent element of the button.
       const parentElm = target.parentElement;
 
       //Grabs the data-id attribute of the parent element.
       selectedMealId = parentElm.dataset.id;
-      console.log(selectedMealId);
       displayModal(selectedMealId);
     }
   });
